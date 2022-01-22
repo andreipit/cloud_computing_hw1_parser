@@ -1,0 +1,1 @@
+docker run -v "%cd%":/tmp/working -w=/tmp/working -p 8888:8888 --rm -it jupyter/datascience-notebook:8c2836ace4a1 jupyter notebook --no-browser --ip="*" --notebook-dir=/tmp/working --allow-root   
