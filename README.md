@@ -11,8 +11,10 @@ pip install -r requirements.txt
 python mini_google.py
 
 3) dockerfile way:
+cd <Dockerfile location>
+docker build -f ./Dockerfile -t developing/img03:tag01 .
+docker run -it --rm developing/img03:tag01
+cd cloud_computing_hw1_parser
 
-
-
-
+pip install -r -requirements.txt
 
