@@ -1,6 +1,7 @@
 Task:
 Hi there! Your 3rd task is: rewrite your 1st lab to use some kind of database to store crawled data (MySQL, MongoDB, Elasticsearch and so on). Database you gonna use have to be packed up inside Docker container and you have to use docker-compose to run it near your app!
 
+# 3 ways:
 
 1) interactive way (jupyter notebook):
 docker run -v "%cd%":/tmp/working -w=/tmp/working -p 8888:8888 --rm -it jupyter/datascience-notebook:8c2836ace4a1 jupyter notebook --no-browser --ip="*" --notebook-dir=/tmp/working --allow-root   
@@ -17,3 +18,6 @@ docker run -it --rm developing/img03:tag01
 cd cloud_computing_hw1_parser
 pip install -r -requirements.txt
 python3 mini_google.py
+
+cat result.html
+rm result.html
