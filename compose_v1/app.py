@@ -110,7 +110,8 @@ def update():
     save_df2sql(df)
     r = save_df2redis(df)
     print('saved')
-    df_str = load_df_from_redis(r, 'key').to_string().encode('utf-8').strip()
+    # df_str = load_df_from_redis(r, 'key').to_string().encode('utf-8').strip()
+    df_str = load_df_from_redis(r, 'key').to_string()#.encode('utf-8').strip()
     print(df_str)
     return df_str
 
