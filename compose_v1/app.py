@@ -98,6 +98,7 @@ def save_df2sql(df):
 def update():
     global last_df
     df = surf_web()
+    df_str = None
     if last_df.equals(df):
         print('df is same -> no notification')
     else:
