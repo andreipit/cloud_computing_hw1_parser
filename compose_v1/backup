@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  web:
+    build: ./Dockerfile
+    ports:
+      - "6379:6379"
+    image: myapp01
+  redis:
+    build: ./DockerfileRedis
+    image: myapp01_redis
+    ports:
+      - "6379:6379"
