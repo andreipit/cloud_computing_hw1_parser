@@ -72,7 +72,10 @@ def save_df2html(df):
 
 def save_df2redis(df):
     EXPIRATION_SECONDS = 600
-    r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    # r = redis.StrictRedis(host='localhost', port=6379, db=0)
+    # r = redis.StrictRedis(host='127.0.0.1', port=6379, db=0)
+    r = cache
+    # r = redis.StrictRedis(host='127.0.0.1', port=5000, db=0)
     r.setex("key", EXPIRATION_SECONDS, zlib.compress( pickle.dumps(df)))
     return r
 
@@ -99,16 +102,16 @@ def update():
     global last_df
     df = surf_web()
     df_str = None
-    if last_df.equals(df):
-        print('df is same -> no notification')
-    else:
-        last_df = df
-        save_df2html(df)
-        save_df2sql(df)
-        r = save_df2redis(df)
-        print('saved')
-        df_str = load_df_from_redis(r, 'key').to_string().encode('utf-8').strip()
-        print(df_str)
+    # if last_df.equals(df):
+    #     print('df is same -> no notification')
+    # else:
+    last_df = df
+    save_df2html(df)
+    save_df2sql(df)
+    r = save_df2redis(df)
+    print('saved')
+    df_str = load_df_from_redis(r, 'key').to_string().encode('utf-8').strip()
+    print(df_str)
     return df_str
 
 @app.route('/')
