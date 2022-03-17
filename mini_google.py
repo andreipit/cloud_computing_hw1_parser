@@ -89,7 +89,7 @@ def update():
         save_df2sql(df)
         r = save_df2redis(df)
         print('saved')
-        print(load_df_from_redis(r, 'key').to_string())
+        print(load_df_from_redis(r, 'key').to_string().encode('utf-8').strip())
 
 if __name__ == '__main__':
     # loop & wait, loop & wait...
