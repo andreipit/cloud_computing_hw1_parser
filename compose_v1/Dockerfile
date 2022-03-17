@@ -8,7 +8,9 @@ RUN pip3 install --upgrade pip
 RUN cd home
 RUN git clone https://github.com/andreipit/cloud_computing_hw1_parser
 RUN cd cloud_computing_hw1_parser
+COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
+# RUN pip install -r requirements.txt
 # RUN echo 'Hello World from Docker!' > /var/www/html/index.html
 
 EXPOSE 5000
