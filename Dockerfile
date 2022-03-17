@@ -1,24 +1,11 @@
-#---------------------------------------------------------------------------
-# Dockefile to build Docker Image of Apache WebServer running on Ubuntu
-#
-# Made by me 9 jan 2019
-# apt-get install -y python3
-#---------------------------------------------------------------------------
-
-FROM ubuntu:18.04
-
-RUN apt-get -y update
-RUN apt-get install -y git
-RUN apt-get install -y python3
-RUN apt-get install -y python3-pip
-RUN pip3 install --upgrade pip
-RUN cd home
-RUN git clone https://github.com/andreipit/cloud_computing_hw1_parser
-RUN cd cloud_computing_hw1_parser
-RUN pip install -r -requirements.txt
-# RUN echo 'Hello World from Docker!' > /var/www/html/index.html
-
-# redis client
-#RUN pip install redis
-
-EXPOSE 80
+# syntax=docker/dockerfile:1
+FROM python:3.7-alpine
+WORKDIR /code
+ENV FLASK_APP=app.py
+ENV FLASK_RUN_HOST=0.0.0.0
+RUN apk add --no-cache gcc musl-dev linux-headers
+COPY requirements.txt requirements.txt
+RUN pip install -r requirements.txt
+EXPOSE 5000
+COPY . .
+CMD ["flask", "run"]

@@ -1,33 +1,16 @@
 import time
-
-import redis
-from flask import Flask
 import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
 import ssl
 import pandas as pd
 import numpy as np
 
+import redis
 import pickle
 import redis
 import zlib
 
 last_df = pd.DataFrame()
-
-
-app = Flask(__name__)
-cache = redis.Redis(host='redis', port=6379)
-
-def get_hit_count():
-    retries = 5
-    while True:
-        try:
-            return cache.incr('hits')
-        except redis.exceptions.ConnectionError as exc:
-            if retries == 0:
-                raise exc
-            retries -= 1
-            time.sleep(0.5)
 
 def surf_web():
     # load urls & queries
@@ -106,25 +89,13 @@ def update():
         save_df2sql(df)
         r = save_df2redis(df)
         print('saved')
-        df_str = load_df_from_redis(r, 'key').to_string().encode('utf-8').strip()
-        print(df_str)
-    return df_str
+        print(load_df_from_redis(r, 'key').to_string().encode('utf-8').strip())
 
-@app.route('/')
-def hello():
+if __name__ == '__main__':
     # loop & wait, loop & wait...
     i = 0
-    df_str = None
     while True:
         i += 1
-        df_str = update()
+        update()
         time.sleep(10)
         if i==2: break
-    # count = get_hit_count()
-    return 'Hello World! I have been seen {} times.\n'.format(df_str)
-    # return 'Hello World!'
-
-# @app.route('/')
-# def hello():
-#     count = get_hit_count()
-#     return 'Hello World! I have been seen {} times.\n'.format(count)
