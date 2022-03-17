@@ -1,7 +1,7 @@
 # requirements
+numpy
+pandas
 times==0.7
 urllib3==1.26.9
 beautifulsoup4==4.10.0
-numpy
-pandas
 redis
