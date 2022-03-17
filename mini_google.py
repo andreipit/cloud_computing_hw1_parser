@@ -5,6 +5,11 @@ import ssl
 import pandas as pd
 import numpy as np
 
+import redis
+import pickle
+import redis
+import zlib
+
 last_df = pd.DataFrame()
 
 def surf_web():
@@ -49,15 +54,15 @@ def save_df2html(df):
         f.write(FOOTER)
 
 def save_df2redis(df):
-    import redis
-    import pickle
-    import redis
-    import zlib
     EXPIRATION_SECONDS = 600
     r = redis.StrictRedis(host='localhost', port=6379, db=0)
     r.setex("key", EXPIRATION_SECONDS, zlib.compress( pickle.dumps(df)))
+    return r
 
-def load_df_from_redis(key):
+def load_df_from_redis(r, key):
+    import pickle
+    import zlib
+    import redis
     rehydrated_df = pickle.loads(zlib.decompress(r.get(key)))
     return rehydrated_df
 
@@ -82,9 +87,9 @@ def update():
         last_df = df
         save_df2html(df)
         save_df2sql(df)
-        save_df2redis(df)
+        r = save_df2redis(df)
         print('saved')
-        print(load_df_from_redis('key'))
+        print(load_df_from_redis(r, 'key'))
 
 if __name__ == '__main__':
     # loop & wait, loop & wait...
